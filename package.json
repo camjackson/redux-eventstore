@@ -1,0 +1,25 @@
+{
+  "name": "redux-eventstore",
+  "version": "0.0.1",
+  "description": "Redux middleware for reading and writing actions to Event Store",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camjackson/redux-eventstore.git"
+  },
+  "keywords": [
+    "redux",
+    "event store",
+    "event sourcing",
+    "cqrs"
+  ],
+  "author": "Cam Jackson",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/camjackson/redux-eventstore/issues"
+  },
+  "homepage": "https://github.com/camjackson/redux-eventstore#readme"
+}
