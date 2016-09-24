@@ -4,6 +4,7 @@
   "description": "Redux middleware for reading and writing actions to Event Store",
   "main": "index.js",
   "scripts": {
+    "debug": "babel-node --inspect index.js",
     "start": "babel-node index.js",
     "middleware": "babel-node src/__tests__/middleware-test.js",
     "subscribe": "babel-node src/__tests__/subscribe-test.js"

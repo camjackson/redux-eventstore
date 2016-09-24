@@ -3,8 +3,8 @@
 const http = require('http');
 const url = require('url');
 
-const json = 'application/json';
-const eventJson = 'application/vnd.eventstore.events+json';
+const eventsJson = 'application/vnd.eventstore.events+json';
+const atomJson = 'application/vnd.eventstore.atom+json';
 
 const handleResult = resolve => res => {
   let body = '';
@@ -14,19 +14,23 @@ const handleResult = resolve => res => {
 
 const get = uri => (
   new Promise(resolve => (
-    http.get({ ...url.parse(uri), headers: { Accept: json } }, handleResult(resolve))
+    http.get({ ...url.parse(uri), headers: { Accept: atomJson } }, handleResult(resolve))
   ))
 );
 
 const post = (uri, body) => (
   new Promise(resolve => {
-    const writable = JSON.stringify(body);
-    const headers = { 'Accept': json, 'Content-Type': eventJson, 'Content-Length': Buffer.byteLength(writable) };
+    const data = JSON.stringify(body);
+    const headers = { 'Accept': atomJson, 'Content-Type': eventsJson, 'Content-Length': Buffer.byteLength(data) };
 
     const req = http.request({ ...url.parse(uri), method: 'POST', headers }, handleResult(resolve));
-    req.write(writable);
+    req.write(data);
     req.end();
   })
 );
 
-module.exports = { get, post };
+const sleep = duration => (
+  new Promise(resolve => setTimeout(resolve, duration))
+);
+
+module.exports = { get, post, sleep };
