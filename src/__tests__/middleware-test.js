@@ -6,7 +6,6 @@ const rootReducer = (state, action) => {
   return state;
 };
 
-//'http://0.0.0.0:2113/streams/newstream'
 const eventStoreMiddleware = middleware('http://0.0.0.0:2113', 'newstream');
 const store = redux.createStore(
   rootReducer,
@@ -14,3 +13,4 @@ const store = redux.createStore(
 );
 
 store.dispatch({ type: 'SOME_ACTION', payload: 'the payload'});
+// expect('the above action').to('get POSTed to the event store');

@@ -2,18 +2,25 @@
 
 const get = require('./util').get;
 
-const getLink = (payload, linkName) => payload.links.find(uri => uri.relation === linkName).uri;
+const getLink = (payload, relation) => {
+  const link = payload.links.find(uri => uri.relation === relation);
+  return link && link.uri;
+};
 
-async function subscribe(host, streamName, store) {
+async function subscribe(host, streamName, dispatch) {
   const stream = await get(`${host}/streams/${streamName}`);
-  let nextUri = getLink(stream, 'last');
-  let page;
+  //If there's only one page, then there won't be a 'last' link.
+  let nextUri = getLink(stream, 'last') || getLink(stream, 'self');
 
-  do {
-    page = await get(nextUri);
-    page.entries.reverse().forEach(store.dispatch);
+  while (true) {
+    const page = await get(nextUri);
+    page.entries.reverse().forEach(async function (event) {
+      dispatch(await get(event.id));
+    });
     nextUri = getLink(page, 'previous');
-  } while(!page.headOfStream);
+
+    if (page.headOfStream) break;
+  }
 }
 
 module.exports = subscribe;
