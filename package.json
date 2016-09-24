@@ -1,6 +1,6 @@
 {
   "name": "redux-eventstore",
-  "version": "0.0.1-alpha",
+  "version": "0.0.1-alpha.2",
   "description": "Redux middleware for reading and writing actions to Event Store",
   "main": "index.js",
   "scripts": {

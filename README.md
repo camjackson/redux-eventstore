@@ -8,6 +8,7 @@ Do not use in production yet :)
 TODO:
  - Docs
  - Proper tests
+    - CI
  - ES6 modules?
  - Proper build steps
  - Make sure events aren't double-handled if a store uses `subscribe` and `middleware`
