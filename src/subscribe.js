@@ -15,4 +15,8 @@ async function subscribe(host, streamName, dispatch) {
   }
 }
 
-module.exports = subscribe;
+const subscribeAsync = (host, streamName, dispatch) => (
+  process.nextTick(() => subscribe(host, streamName, dispatch))
+);
+
+module.exports = subscribeAsync;

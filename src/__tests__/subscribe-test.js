@@ -1,12 +1,37 @@
 const redux = require('redux');
+const nock = require('nock');
 const subscribeToEventStore = require('../subscribe');
 
-const rootReducer = (state = 0, action) => {
-  const newState = state + (action.amount || 0);
-  console.log(`oldState: ${state}, action: ${JSON.stringify(action)}, newState: ${newState}`);
-  return newState;
-};
+test('reads the events off the stream and dispatches them, in order', () => {
+  const rootReducer = (state = 0, action) => {
+    switch(action.type) {
+      case 'ADD':
+        return state + action.amount;
+      case 'MULTIPLY':
+        return state * action.amount;
+      default:
+        return state;
+    }
+  };
 
-const store = redux.createStore(rootReducer);
+  const store = redux.createStore(rootReducer);
 
-subscribeToEventStore('http://0.0.0.0:2113', 'newstream', store.dispatch);
+  nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' }})
+    .persist()
+    .get('/streams/test-stream/0')
+      .reply(200, { content: { eventType: 'ADD', data: { amount: 3 } } })
+    .get('/streams/test-stream/1')
+      .reply(200, { content: { eventType: 'MULTIPLY', data: { amount: 5 } } })
+    .get('/streams/test-stream/2')
+      .reply(404);
+
+  subscribeToEventStore('http://0.0.0.0:2113', 'test-stream', store.dispatch);
+
+  // Ugly race condition test :/
+  return new Promise(resolve => {
+    setTimeout(() => {
+      expect(store.getState()).toBe(15);
+      resolve();
+    }, 100);
+  });
+});
