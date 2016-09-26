@@ -4,7 +4,7 @@ Pull requests are welcome.
  - Please add automated tests for any new code
 
 ## Setup
-Install node v6, then clone and install package dependencies
+Install node v6, then clone and install package dependencies:
 ```sh
 git clone ssh://git@github.com:camjackson/redux-eventstore
 npm install
