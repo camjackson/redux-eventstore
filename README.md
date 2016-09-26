@@ -14,6 +14,5 @@ TODO:
   - Proper build steps
   - Make sure events aren't double-handled if a store uses `subscribe` and `middleware`
      - Maybe just an option to make `middleware` swallow all events?
-  - Make the wait time customisable in `subcribe`
   - Better error handling everywhere
   - Logging (customisable levels?)

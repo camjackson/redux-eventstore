@@ -2,7 +2,7 @@
 
 const { get, sleep } = require('./util');
 
-async function subscribe(host, streamName, dispatch) {
+async function subscribe(host, streamName, dispatch, pollPeriod=1000) {
   let index = 0;
   while (true) {
     try {
@@ -10,7 +10,7 @@ async function subscribe(host, streamName, dispatch) {
       dispatch({ type: event.content.eventType, ...event.content.data });
       index++;
     } catch (e) {
-      await sleep(1000);
+      await sleep(pollPeriod);
     }
   }
 }
