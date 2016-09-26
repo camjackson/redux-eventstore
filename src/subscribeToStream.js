@@ -2,7 +2,7 @@
 
 const { get, sleep } = require('./util');
 
-async function subscribe(host, streamName, dispatch, pollPeriod=1000) {
+async function subscribeToStream(host, streamName, dispatch, pollPeriod=1000) {
   let index = 0;
   while (true) {
     try {
@@ -15,8 +15,8 @@ async function subscribe(host, streamName, dispatch, pollPeriod=1000) {
   }
 }
 
-const subscribeAsync = (host, streamName, dispatch) => (
-  process.nextTick(() => subscribe(host, streamName, dispatch))
+const subscribeToStreamAsync = (host, streamName, dispatch) => (
+  process.nextTick(() => subscribeToStream(host, streamName, dispatch))
 );
 
-module.exports = subscribeAsync;
+module.exports = subscribeToStreamAsync;

@@ -1,8 +1,8 @@
 'use strict';
 
-const middleware = require('./src/middleware');
-const subscribe = require('./src/subscribe');
+const storeEvents = require('./src/storeEvents');
+const subscribeToStream = require('./src/subscribeToStream');
 
 module.exports = {
-  middleware, subscribe
+  storeEvents, subscribeToStream
 };

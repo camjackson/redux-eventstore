@@ -1,6 +1,8 @@
+'use strict';
+
 const redux = require('redux');
 const nock = require('nock');
-const subscribeToEventStore = require('../subscribe');
+const subscribeToStream = require('../subscribeToStream');
 
 test('reads the events off the stream and dispatches them, in order', () => {
   const rootReducer = (state = 0, action) => {
@@ -25,7 +27,7 @@ test('reads the events off the stream and dispatches them, in order', () => {
     .get('/streams/test-stream/2')
       .reply(404);
 
-  subscribeToEventStore('http://0.0.0.0:2113', 'test-stream', store.dispatch);
+  subscribeToStream('http://0.0.0.0:2113', 'test-stream', store.dispatch);
 
   // Ugly race condition test :/
   return new Promise(resolve => {

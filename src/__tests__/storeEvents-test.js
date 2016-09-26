@@ -1,13 +1,13 @@
+'use strict';
+
 const redux = require('redux');
 const nock = require('nock');
-
-const middleware = require('../middleware');
+const storeEvents = require('../storeEvents');
 
 test('it POSTs the dispatched action to the event store', () => {
-  const eventStoreMiddleware = middleware('http://0.0.0.0:2113', 'test-stream');
   const store = redux.createStore(
     state => state,
-    redux.applyMiddleware(eventStoreMiddleware)
+    redux.applyMiddleware(storeEvents('http://0.0.0.0:2113', 'test-stream'))
   );
 
   const eventStream = nock('http://0.0.0.0:2113', {
