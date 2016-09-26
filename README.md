@@ -1,11 +1,9 @@
 # redux-eventstore
 [![Build Status](https://snap-ci.com/camjackson/redux-eventstore/branch/master/build_image)](https://snap-ci.com/camjackson/redux-eventstore/branch/master)
 
-Redux middleware for reading and writing actions to [Event Store](https://geteventstore.com/)
+Easily hook [redux](redux.js.org) up to [Event Store](https://geteventstore.com/), for easy CQRS and event sourcing with node.js. #buzzwordbingo
 
-Core functionality is present, but this should be considered very unstable.
-
-Do not use in production yet :)
+Core functionality is there, but probably not ready for production yet :)
 
 TODO:
   - Docs
