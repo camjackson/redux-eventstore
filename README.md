@@ -1,5 +1,6 @@
 # redux-eventstore
-Redux middleware for reading and writing actions to Event Store
+[![Build Status](https://snap-ci.com/camjackson/redux-eventstore/branch/master/build_image)](https://snap-ci.com/camjackson/redux-eventstore/branch/master)
+Redux middleware for reading and writing actions to [Event Store](https://geteventstore.com/)
 
 Core functionality is present, but this should be considered very unstable.
 
