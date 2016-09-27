@@ -2,12 +2,12 @@
 
 const redux = require('redux');
 const nock = require('nock');
-const storeEvents = require('../storeEvents');
+const writeToStream = require('../writeToStream');
 
 test('it POSTs the dispatched action to the event store', () => {
   const store = redux.createStore(
     state => state,
-    redux.applyMiddleware(storeEvents('http://0.0.0.0:2113', 'test-stream'))
+    redux.applyMiddleware(writeToStream('http://0.0.0.0:2113', 'test-stream'))
   );
 
   const eventStream = nock('http://0.0.0.0:2113', {

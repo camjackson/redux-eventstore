@@ -10,8 +10,9 @@ TODO:
     - Mention actions vs events
   - Linting
   - ES6 modules?
-  - Proper build steps
-  - Make sure events aren't double-handled if a single store uses both `subscribeToStream` and `storeEvents`
-     - Maybe just an option to make `storeEvents` swallow all events?
+  - Make sure events aren't double-handled if a single store uses both `subscribeToStream` and `writeToStream`
+     - Maybe just an option to make `writeToStream` swallow all events?
   - Better error handling everywhere
   - Logging (customisable levels?)
+    - Idea: callback params for info logging and debug logging!
+  - Test different engines, and document what works/doesn't

@@ -2,8 +2,8 @@
 
 const http = require('http');
 const { createStore, applyMiddleware } = require('redux');
-const storeEvents = require('./storeEvents');
-const subscribeToStream = require('./subscribeToStream');
+const writeToStream = require('./../writeToStream');
+const subscribeToStream = require('./../subscribeToStream');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // A server that subscribes to an Event Store stream, reducing its events to GET-able, in-memory state //
@@ -51,7 +51,7 @@ const subscribeToStream = require('./subscribeToStream');
 (() => {
   const storeWithMiddleware = createStore(
     state => state,
-    applyMiddleware(storeEvents('http://localhost:2113', 'demo-stream'))
+    applyMiddleware(writeToStream('http://localhost:2113', 'demo-stream'))
   );
 
   const writeToStore = (req, res) => {

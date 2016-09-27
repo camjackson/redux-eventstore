@@ -1,16 +1,14 @@
 {
   "name": "redux-eventstore",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.5",
   "description": "Redux middleware for reading and writing actions to Event Store",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "scripts": {
-    "debug": "babel-node --inspect index.js",
-    "demo": "babel-node src/demo-app.js",
-    "start": "babel-node index.js",
+    "prepublish": "npm run build",
+    "build": "babel -d dist src/index.js src/writeToStream.js src/subscribeToStream.js src/util.js",
+    "start": "babel-node src/examples/demo-app.js",
     "test": "jest --watch",
-    "test-once": "jest",
-    "middleware": "babel-node src/__tests__/middleware-test.js",
-    "subscribe": "babel-node src/__tests__/subscribe-test.js"
+    "test-once": "jest"
   },
   "repository": {
     "type": "git",
@@ -41,6 +39,7 @@
     "redux": "^3.6.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.13.0",
     "uuid": "^2.0.3"
   }
 }
