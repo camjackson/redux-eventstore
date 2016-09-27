@@ -1,7 +1,7 @@
 # redux-eventstore
 [![Build Status](https://snap-ci.com/camjackson/redux-eventstore/branch/master/build_image)](https://snap-ci.com/camjackson/redux-eventstore/branch/master)
 
-Easily hook [redux](redux.js.org) up to [Event Store](https://geteventstore.com/), for easy CQRS and event sourcing with node.js. #buzzwordbingo
+Easily hook [redux](https://redux.js.org) up to [Event Store](https://geteventstore.com/), for easy CQRS and event sourcing with node.js. #buzzwordbingo
 
 Core functionality is there, but probably not ready for production yet :)
 
