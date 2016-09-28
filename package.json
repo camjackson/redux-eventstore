@@ -1,12 +1,12 @@
 {
   "name": "redux-eventstore",
   "version": "0.0.1-alpha.5",
-  "description": "Redux middleware for reading and writing actions to Event Store",
+  "description": "Easily hook redux up to Event Store, for easy CQRS and event sourcing with node.js",
   "main": "dist/src/index.js",
   "scripts": {
     "prepublish": "npm run build",
     "build": "babel -d dist src/index.js src/writeToStream.js src/subscribeToStream.js src/util.js",
-    "start": "babel-node src/examples/demo-app.js",
+    "start": "babel-node examples/demo-app.js",
     "test": "jest --watch",
     "test-once": "jest"
   },

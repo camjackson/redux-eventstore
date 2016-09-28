@@ -5,12 +5,12 @@ const nock = require('nock');
 const subscribeToStream = require('../subscribeToStream');
 
 test('reads the events off the stream and dispatches them, in order', () => {
-  const rootReducer = (state = 0, action) => {
-    switch(action.type) {
+  const rootReducer = (state = 0, event) => {
+    switch(event.type) {
       case 'ADD':
-        return state + action.amount;
+        return state + event.amount;
       case 'MULTIPLY':
-        return state * action.amount;
+        return state * event.amount;
       default:
         return state;
     }

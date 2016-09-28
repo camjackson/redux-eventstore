@@ -1,5 +1,7 @@
 # Contributing
-Pull requests are welcome.
+Feature requests and bug reports are welcome.
+
+Pull requests are also welcome:
  - Please try to match the existing code style of the project
  - Please add automated tests for any new code
 
