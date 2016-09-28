@@ -1,5 +1,5 @@
 # Contributing
-Feature requests and bug reports are welcome.
+Feature requests and bug reports are appreciated.
 
 Pull requests are also welcome:
  - Please try to match the existing code style of the project

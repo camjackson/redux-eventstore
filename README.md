@@ -1,14 +1,14 @@
 # redux-eventstore
 [![Build Status](https://snap-ci.com/camjackson/redux-eventstore/branch/master/build_image)](https://snap-ci.com/camjackson/redux-eventstore/branch/master)
 
-Easily hook [redux](http://redux.js.org) up to [Event Store](https://geteventstore.com/), for easy [CQRS](http://martinfowler.com/bliki/CQRS.html)
-and [event sourcing](http://martinfowler.com/eaaDev/EventSourcing.html) with [node.js](https://nodejs.org/en/).
+Easy [CQRS](http://martinfowler.com/bliki/CQRS.html) and [event sourcing](http://martinfowler.com/eaaDev/EventSourcing.html)
+with [Node.js](https://nodejs.org/en/), [Redux](http://redux.js.org), and [Event Store](https://geteventstore.com/).
 
 ***Probably not ready for production yet! See 'Limitations' below.***
 
-To be clear, this library is meant for event-based persistence on the server. You might be able to get it to work in
-the browser using something like [browserify](http://browserify.org/), but only if you're ok with people writing
-directly to your database. (If anyone does get it working in the browser, please let us know!)
+This library is meant for event-based persistence on the server. You might be able to get it to work in the browser
+using something like [browserify](http://browserify.org/), but only if you're ok with people writing directly to your
+database. (If anyone does get it working in the browser, please let us know!)
 
 ## Installation
 ```sh

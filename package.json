@@ -1,7 +1,7 @@
 {
   "name": "redux-eventstore",
-  "version": "0.0.1-alpha.5",
-  "description": "Easily hook redux up to Event Store, for easy CQRS and event sourcing with node.js",
+  "version": "0.0.1-alpha.7",
+  "description": "Easy CQRS and event sourcing with Node.js, Redux, and Event Store",
   "main": "dist/src/index.js",
   "scripts": {
     "prepublish": "npm run build",
