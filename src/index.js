@@ -2,9 +2,9 @@
 
 require('babel-polyfill');
 
-const writeToStream = require('./writeToStream');
+const streamWriter = require('./streamWriter');
 const subscribeToStream = require('./subscribeToStream');
 
 module.exports = {
-  writeToStream, subscribeToStream
+  streamWriter, subscribeToStream
 };

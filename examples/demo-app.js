@@ -1,15 +1,14 @@
 'use strict';
 
 const http = require('http');
-const { createStore, applyMiddleware } = require('redux');
-const { writeToStream, subscribeToStream } = require('../src/index');
+const { createStore } = require('redux');
+const { streamWriter, subscribeToStream } = require('../src/index');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // A server that subscribes to an Event Store stream, reducing its events to GET-able, in-memory state //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 (() => {
   const rootReducer = (state = 0, event) => {
-    console.log('Reading event from stream:', event);
     switch(event.type) {
       case 'ADD':
         return state + event.amount;
@@ -22,7 +21,7 @@ const { writeToStream, subscribeToStream } = require('../src/index');
   const subscriberStore = createStore(rootReducer);
   subscribeToStream('http://localhost:2113', 'demo-stream', subscriberStore.dispatch);
 
-  const getReducedState = (req, res) => {
+  const server = (req, res) => {
     if (req.url === '/amount' && req.method === 'GET') {
       const body = JSON.stringify({ amount: subscriberStore.getState() });
 
@@ -35,7 +34,7 @@ const { writeToStream, subscribeToStream } = require('../src/index');
     }
   };
 
-  http.createServer(getReducedState).listen(8080, () => {
+  http.createServer(server).listen(8080, () => {
     setTimeout(() => {
       console.log('\n------------');
       console.log('GET the reduced state from :8080! For example:');
@@ -48,19 +47,25 @@ const { writeToStream, subscribeToStream } = require('../src/index');
 // A server that receives events as POST requests and writes them to an Event Store stream //
 /////////////////////////////////////////////////////////////////////////////////////////////
 (() => {
-  const storeWithMiddleware = createStore(
-    state => state,
-    applyMiddleware(writeToStream('http://localhost:2113', 'demo-stream'))
-  );
+  const writeToStream = streamWriter('http://localhost:2113', 'demo-stream');
 
-  const writeToStore = (req, res) => {
-    if (req.url === '/event' && req.method === 'POST') {
+  // These are event creators, just like regular action creators:
+  // http://redux.js.org/docs/basics/Actions.html#action-creators
+  const add = amount => ({ type: 'ADD', amount });
+  const multiply = amount => ({ type: 'MULTIPLY', amount });
+
+  const server = (req, res) => {
+    if (req.method === 'POST') {
       let body = '';
       req.on('data', data => { body += data; });
       req.on('end', () => {
-        const event = JSON.parse(body);
-        console.log('Dispatching event:', event);
-        storeWithMiddleware.dispatch(event);
+        const amount = JSON.parse(body).amount;
+
+        if (req.url === '/addEvent') {
+          writeToStream(add(amount));
+        } else if(req.url === '/multiplyEvent') {
+          writeToStream(multiply(amount));
+        }
 
         res.statusCode = 201;
         res.statusMessage = 'Created';
@@ -73,13 +78,13 @@ const { writeToStream, subscribeToStream } = require('../src/index');
     }
   };
 
-  http.createServer(writeToStore).listen(8081, () => {
+  http.createServer(server).listen(8081, () => {
     // Try to make these come after the logs from the other server. Async is hard.
     setTimeout(() => {
       console.log('\n------------');
       console.log('POST your events to :8081! For example:');
-      console.log(`curl http://localhost:8081/event -d '{"type": "ADD", "amount": 7 }'`);
-      console.log(`curl http://localhost:8081/event -d '{"type": "MULTIPLY", "amount": 3 }'`);
+      console.log(`curl http://localhost:8081/addEvent -d '{"amount": 7 }'`);
+      console.log(`curl http://localhost:8081/multiplyEvent -d '{"amount": 3 }'`);
     }, 2000);
   });
 })();

@@ -47,9 +47,9 @@ const store = redux.createStore(rootReducer);
 subscribeToStream('https://event-store.my-domain.com:2113', 'my-stream', store.dispatch, 500);
 ```
 
-### `writeToStream(host, stream)`
+### `streamWriter(host, stream)`
 
-Redux middleware that writes each dispatched event to an Event Store stream.
+Creates a function that allows you to write events to an Event Store stream.
 
 **Parameters:**
 
@@ -59,11 +59,8 @@ Redux middleware that writes each dispatched event to an Event Store stream.
 **Example:**
 
 ```js
-const streamWriter = writeToStream('https://event-store.my-domain.com:2113', 'my-stream');
-const store = redux.createStore(
-  rootReducer,
-  redux.applyMiddleware(streamWriter)
-);
+const writeToStream = streamWriter('https://event-store.my-domain.com:2113', 'my-stream');
+writeToStream({ type: 'USER_CREATED', name: "Jane Smith" });
 ```
 
 ## Events vs. actions
@@ -86,8 +83,6 @@ keep this in mind when using it.
   ([#8](https://github.com/camjackson/redux-eventstore/issues/8) and [#9](https://github.com/camjackson/redux-eventstore/issues/9))
   - There is almost zero handling of server errors
   ([#11](https://github.com/camjackson/redux-eventstore/issues/11) and [#12](https://github.com/camjackson/redux-eventstore/issues/12))
-  - If you use both `subscribeToStream` and `writeToStream` on the same store, the store will receive the event twice -
-   once when the event is dispatched, and once when the event is read from the stream) ([#3](https://github.com/camjackson/redux-eventstore/issues/3))
   - There is no auth yet ([#13](https://github.com/camjackson/redux-eventstore/issues/13))
   - There is no logging, which may make troubleshooting difficult ([#4](https://github.com/camjackson/redux-eventstore/issues/4))
   - It was developed with node v6, and other versions have not been tested yet. ([#5](https://github.com/camjackson/redux-eventstore/issues/5))

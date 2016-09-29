@@ -1,14 +1,10 @@
 'use strict';
 
-const redux = require('redux');
 const nock = require('nock');
-const writeToStream = require('../writeToStream');
+const streamWriter = require('../streamWriter');
 
-test('it POSTs the dispatched event to the event store', () => {
-  const store = redux.createStore(
-    state => state,
-    redux.applyMiddleware(writeToStream('http://0.0.0.0:2113', 'test-stream'))
-  );
+test('it POSTs the event to the event store', () => {
+  const writeToStream = streamWriter('http://0.0.0.0:2113', 'test-stream');
 
   const eventStream = nock('http://0.0.0.0:2113', {
     reqheaders: {
@@ -23,7 +19,7 @@ test('it POSTs the dispatched event to the event store', () => {
     ))
     .reply(201);
 
-  store.dispatch({ type: 'SOME_EVENT', amount: 7 });
+  writeToStream({ type: 'SOME_EVENT', amount: 7 });
 
   expect(eventStream.isDone()).toBe(true);
 });
