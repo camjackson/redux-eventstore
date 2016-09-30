@@ -2,7 +2,7 @@
 
 const { get, sleep } = require('./util');
 
-async function pollStream(host, stream, dispatch, pollPeriod=1000) {
+async function pollStream(host, stream, dispatch, pollPeriod) {
   let index = 0;
   while (true) {
     try {
@@ -15,7 +15,7 @@ async function pollStream(host, stream, dispatch, pollPeriod=1000) {
   }
 }
 
-const subscribeToStream = (host, stream, dispatch) => {
+const subscribeToStream = (host, stream, dispatch, pollPeriod=1000) => {
   if (!host || typeof host !== 'string') {
     throw new Error('Event Store host missing or invalid');
   }
@@ -25,7 +25,10 @@ const subscribeToStream = (host, stream, dispatch) => {
   if (typeof dispatch !== 'function') {
     throw new Error('Event Store stream name missing or invalid');
   }
-  return pollStream(host, stream, dispatch);
+  if (typeof pollPeriod !== 'number') {
+    throw new Error('pollPeriod missing or invalid');
+  }
+  return pollStream(host, stream, dispatch, pollPeriod);
 };
 
 module.exports = subscribeToStream;

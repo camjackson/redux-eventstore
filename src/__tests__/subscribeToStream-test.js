@@ -22,6 +22,12 @@ test('it throws an error when dispatch is invalid', () => {
   expect(() => subscribeToStream('localhost', 'test-stream', 'function')).toThrowError(/stream/);
 });
 
+test('it throws an error when pollPeriod is invalid', () => {
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, null)).toThrowError(/pollPeriod/);
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, {})).toThrowError(/pollPeriod/);
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, 'one')).toThrowError(/pollPeriod/);
+});
+
 test('it reads the events off the stream and dispatches them, in order', () => {
   const rootReducer = (state = 0, event) => {
     switch(event.type) {
