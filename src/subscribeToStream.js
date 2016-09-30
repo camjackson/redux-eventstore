@@ -5,10 +5,10 @@ async function pollStream(host, stream, dispatch, pollPeriod) {
   while (true) {
     try {
       const event = await get(`${host}/streams/${stream}/${index}`);
+      index++;
       if (event.content && event.content.eventType) {
         dispatch({ type: event.content.eventType, ...event.content.data });
       }
-      index++;
     } catch (e) {
       await sleep(pollPeriod);
     }

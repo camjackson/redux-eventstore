@@ -49,13 +49,13 @@ test('it reads the events off the stream and dispatches them, in order', () => {
     .get('/streams/test-stream/2')
       .reply(404);
 
-  subscribeToStream('http://0.0.0.0:2113', 'test-stream', store.dispatch);
+  subscribeToStream('http://0.0.0.0:2113', 'test-stream', store.dispatch, 10);
 
   return new Promise(resolve => {
     setInterval(() => {
       expect(store.getState()).toBe(15);
       resolve();
-    }, 500);
+    }, 10);
   });
 });
 
@@ -63,6 +63,7 @@ it('it skips events that have no content or eventType', () => {
   const store = createStore(testReducer);
 
   nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' }})
+    .persist()
     .get('/streams/other-stream/0')
       .reply(200, { })
     .get('/streams/other-stream/1')
@@ -70,15 +71,36 @@ it('it skips events that have no content or eventType', () => {
     .get('/streams/other-stream/2')
       .reply(200, { content: { eventType: 'ADD', data: { amount: 2 } } })
     .get('/streams/other-stream/3')
-      .reply(404)
-    .persist();
+      .reply(404);
 
-  subscribeToStream('http://0.0.0.0:2113', 'other-stream', store.dispatch);
+  subscribeToStream('http://0.0.0.0:2113', 'other-stream', store.dispatch, 10);
 
   return new Promise(resolve => {
     setInterval(() => {
       expect(store.getState()).toBe(2);
       resolve();
-    }, 500);
+    }, 10);
+  });
+});
+
+it('it ploughs on when the dispatch fails', () => {
+  const dispatch = () => {
+    throw new Error(':(');
+  };
+
+  const server = nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' }})
+    .persist()
+    .get('/streams/another-stream/0')
+      .reply(200, { content: { eventType: 'ADD' } })
+    .get('/streams/another-stream/1')
+      .reply(404);
+
+  subscribeToStream('http://0.0.0.0:2113', 'another-stream', dispatch, 10);
+
+  return new Promise(resolve => {
+    setInterval(() => {
+      expect(server.isDone()).toBe(true);
+      resolve();
+    }, 10);
   });
 });
