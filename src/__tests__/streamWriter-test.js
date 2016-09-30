@@ -13,7 +13,15 @@ test('it throws an error when stream name is invalid', () => {
   expect(() => streamWriter('localhost', '')).toThrowError(/Invalid stream/);
 });
 
-test('it throws an error when an event has an invalid type', () => {
+test('it throws an error when the event is invalid', () => {
+  const writeToStream = streamWriter('localhost', 'test-stream');
+
+  expect(() => writeToStream('')).toThrowError(/Invalid event/);
+  expect(() => writeToStream(null)).toThrowError(/Invalid event/);
+  expect(() => writeToStream('hello')).toThrowError(/Invalid event/);
+});
+
+test('it throws an error when the event type is invalid', () => {
   const writeToStream = streamWriter('localhost', 'test-stream');
 
   expect(() => writeToStream({ type: '' })).toThrowError(/Invalid event type/);
