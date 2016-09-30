@@ -76,8 +76,6 @@ This is why the `redux-eventstore` docs, examples, and source code all refer to 
 keep this in mind when using it.
 
 ## Limitations
-  - No validation of parameters. If you pass the wrong things to `redux-eventstore`, who knows what could happen!
-  ([#6](https://github.com/camjackson/redux-eventstore/issues/6) and [#7](https://github.com/camjackson/redux-eventstore/issues/7))
   - Similarly, events are not validated when they are dispatched or read. If the event type is missing (like it would be
   for a thunk, for example), who knows what could happen!
   ([#8](https://github.com/camjackson/redux-eventstore/issues/8) and [#9](https://github.com/camjackson/redux-eventstore/issues/9))
