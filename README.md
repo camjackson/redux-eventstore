@@ -76,9 +76,6 @@ This is why the `redux-eventstore` docs, examples, and source code all refer to 
 keep this in mind when using it.
 
 ## Limitations
-  - Similarly, events are not validated when they are dispatched or read. If the event type is missing (like it would be
-  for a thunk, for example), who knows what could happen!
-  ([#8](https://github.com/camjackson/redux-eventstore/issues/8) and [#9](https://github.com/camjackson/redux-eventstore/issues/9))
   - There is almost zero handling of server errors
   ([#11](https://github.com/camjackson/redux-eventstore/issues/11) and [#12](https://github.com/camjackson/redux-eventstore/issues/12))
   - There is no auth yet ([#13](https://github.com/camjackson/redux-eventstore/issues/13))
