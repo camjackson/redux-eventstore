@@ -17,9 +17,9 @@ test('it throws an error when stream name is invalid', () => {
 });
 
 test('it throws an error when dispatch is invalid', () => {
-  expect(() => subscribeToStream('localhost', 'test-stream', {})).toThrowError(/stream/);
-  expect(() => subscribeToStream('localhost', 'test-stream', null)).toThrowError(/stream/);
-  expect(() => subscribeToStream('localhost', 'test-stream', 'function')).toThrowError(/stream/);
+  expect(() => subscribeToStream('localhost', 'test-stream', {})).toThrowError(/dispatch/);
+  expect(() => subscribeToStream('localhost', 'test-stream', null)).toThrowError(/dispatch/);
+  expect(() => subscribeToStream('localhost', 'test-stream', 'function')).toThrowError(/dispatch/);
 });
 
 test('it throws an error when pollPeriod is invalid', () => {

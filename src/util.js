@@ -29,8 +29,14 @@ const post = (uri, body) => (
   })
 );
 
+const validate = (value, type, message, required=false) => {
+  if (typeof value !== type || (required && !value)) {
+    throw new Error(message);
+  }
+};
+
 const sleep = duration => (
   new Promise(resolve => setTimeout(resolve, duration))
 );
 
-module.exports = { get, post, sleep };
+module.exports = { get, post, validate, sleep };

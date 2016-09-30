@@ -3,6 +3,18 @@
 const nock = require('nock');
 const streamWriter = require('../streamWriter');
 
+test('it throws an error when host is not valid', () => {
+  expect(() => streamWriter(null, 'test-stream')).toThrowError(/host/);
+  expect(() => streamWriter({}, 'test-stream')).toThrowError(/host/);
+  expect(() => streamWriter('', 'test-stream')).toThrowError(/host/);
+});
+
+test('it throws an error when stream name is invalid', () => {
+  expect(() => streamWriter('localhost', {})).toThrowError(/stream/);
+  expect(() => streamWriter('localhost', null)).toThrowError(/stream/);
+  expect(() => streamWriter('localhost', '')).toThrowError(/stream/);
+});
+
 test('it POSTs the event to the event store', () => {
   const writeToStream = streamWriter('http://0.0.0.0:2113', 'test-stream');
 

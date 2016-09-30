@@ -1,6 +1,6 @@
 'use strict';
 
-const { get, sleep } = require('./util');
+const { get, validate, sleep } = require('./util');
 
 async function pollStream(host, stream, dispatch, pollPeriod) {
   let index = 0;
@@ -16,18 +16,11 @@ async function pollStream(host, stream, dispatch, pollPeriod) {
 }
 
 const subscribeToStream = (host, stream, dispatch, pollPeriod=1000) => {
-  if (!host || typeof host !== 'string') {
-    throw new Error('Event Store host missing or invalid');
-  }
-  if (!stream || typeof stream !== 'string') {
-    throw new Error('Event Store stream name missing or invalid');
-  }
-  if (typeof dispatch !== 'function') {
-    throw new Error('Event Store stream name missing or invalid');
-  }
-  if (typeof pollPeriod !== 'number') {
-    throw new Error('pollPeriod missing or invalid');
-  }
+  validate(host, 'string', 'host missing or invalid', true);
+  validate(stream, 'string', 'stream name missing or invalid', true);
+  validate(dispatch, 'function', 'dispatch callback missing or invalid');
+  validate(pollPeriod, 'number', 'pollPeriod missing or invalid');
+
   return pollStream(host, stream, dispatch, pollPeriod);
 };
 
