@@ -4,7 +4,25 @@ const redux = require('redux');
 const nock = require('nock');
 const subscribeToStream = require('../subscribeToStream');
 
-test('reads the events off the stream and dispatches them, in order', () => {
+test('it throws an error when host is not valid', () => {
+  expect(() => subscribeToStream(null, 'test-stream', () => {})).toThrowError(/host/);
+  expect(() => subscribeToStream({}, 'test-stream', () => {})).toThrowError(/host/);
+  expect(() => subscribeToStream('', 'test-stream', () => {})).toThrowError(/host/);
+});
+
+test('it throws an error when stream name is invalid', () => {
+  expect(() => subscribeToStream('localhost', {}, () => {})).toThrowError(/stream/);
+  expect(() => subscribeToStream('localhost', null, () => {})).toThrowError(/stream/);
+  expect(() => subscribeToStream('localhost', '', () => {})).toThrowError(/stream/);
+});
+
+test('it throws an error when dispatch is invalid', () => {
+  expect(() => subscribeToStream('localhost', 'test-stream', {})).toThrowError(/stream/);
+  expect(() => subscribeToStream('localhost', 'test-stream', null)).toThrowError(/stream/);
+  expect(() => subscribeToStream('localhost', 'test-stream', 'function')).toThrowError(/stream/);
+});
+
+test('it reads the events off the stream and dispatches them, in order', () => {
   const rootReducer = (state = 0, event) => {
     switch(event.type) {
       case 'ADD':
