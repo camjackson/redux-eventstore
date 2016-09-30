@@ -16,10 +16,10 @@ async function pollStream(host, stream, dispatch, pollPeriod) {
 }
 
 const subscribeToStream = (host, stream, dispatch, pollPeriod=1000) => {
-  validate(host, 'string', 'host missing or invalid', true);
-  validate(stream, 'string', 'stream name missing or invalid', true);
-  validate(dispatch, 'function', 'dispatch callback missing or invalid');
-  validate(pollPeriod, 'number', 'pollPeriod missing or invalid');
+  validate(host, 'host', 'string', true);
+  validate(stream, 'stream', 'string', true);
+  validate(dispatch, 'dispatch', 'function');
+  validate(pollPeriod, 'pollPeriod', 'number');
 
   return pollStream(host, stream, dispatch, pollPeriod);
 };

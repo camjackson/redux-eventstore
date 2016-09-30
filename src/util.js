@@ -29,9 +29,9 @@ const post = (uri, body) => (
   })
 );
 
-const validate = (value, type, message, required=false) => {
+const validate = (value, name, type, required=false) => {
   if (typeof value !== type || (required && !value)) {
-    throw new Error(message);
+    throw new Error(`Invalid ${name}: ${value}`);
   }
 };
 

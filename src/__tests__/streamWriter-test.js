@@ -4,15 +4,23 @@ const nock = require('nock');
 const streamWriter = require('../streamWriter');
 
 test('it throws an error when host is not valid', () => {
-  expect(() => streamWriter(null, 'test-stream')).toThrowError(/host/);
-  expect(() => streamWriter({}, 'test-stream')).toThrowError(/host/);
-  expect(() => streamWriter('', 'test-stream')).toThrowError(/host/);
+  expect(() => streamWriter(null, 'test-stream')).toThrowError(/Invalid host/);
+  expect(() => streamWriter({}, 'test-stream')).toThrowError(/Invalid host/);
+  expect(() => streamWriter('', 'test-stream')).toThrowError(/Invalid host/);
 });
 
 test('it throws an error when stream name is invalid', () => {
-  expect(() => streamWriter('localhost', {})).toThrowError(/stream/);
-  expect(() => streamWriter('localhost', null)).toThrowError(/stream/);
-  expect(() => streamWriter('localhost', '')).toThrowError(/stream/);
+  expect(() => streamWriter('localhost', {})).toThrowError(/Invalid stream/);
+  expect(() => streamWriter('localhost', null)).toThrowError(/Invalid stream/);
+  expect(() => streamWriter('localhost', '')).toThrowError(/Invalid stream/);
+});
+
+test('it throws an error when an event has an invalid type', () => {
+  const writeToStream = streamWriter('localhost', 'test-stream');
+
+  expect(() => writeToStream({ type: '' })).toThrowError(/Invalid event type/);
+  expect(() => writeToStream({ type: null })).toThrowError(/Invalid event type/);
+  expect(() => writeToStream({ type: {} })).toThrowError(/Invalid event type/);
 });
 
 test('it POSTs the event to the event store', () => {

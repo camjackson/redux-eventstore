@@ -5,27 +5,27 @@ const nock = require('nock');
 const subscribeToStream = require('../subscribeToStream');
 
 test('it throws an error when host is not valid', () => {
-  expect(() => subscribeToStream(null, 'test-stream', () => {})).toThrowError(/host/);
-  expect(() => subscribeToStream({}, 'test-stream', () => {})).toThrowError(/host/);
-  expect(() => subscribeToStream('', 'test-stream', () => {})).toThrowError(/host/);
+  expect(() => subscribeToStream(null, 'test-stream', () => {})).toThrowError(/Invalid host/);
+  expect(() => subscribeToStream({}, 'test-stream', () => {})).toThrowError(/Invalid host/);
+  expect(() => subscribeToStream('', 'test-stream', () => {})).toThrowError(/Invalid host/);
 });
 
 test('it throws an error when stream name is invalid', () => {
-  expect(() => subscribeToStream('localhost', {}, () => {})).toThrowError(/stream/);
-  expect(() => subscribeToStream('localhost', null, () => {})).toThrowError(/stream/);
-  expect(() => subscribeToStream('localhost', '', () => {})).toThrowError(/stream/);
+  expect(() => subscribeToStream('localhost', {}, () => {})).toThrowError(/Invalid stream/);
+  expect(() => subscribeToStream('localhost', null, () => {})).toThrowError(/Invalid stream/);
+  expect(() => subscribeToStream('localhost', '', () => {})).toThrowError(/Invalid stream/);
 });
 
 test('it throws an error when dispatch is invalid', () => {
-  expect(() => subscribeToStream('localhost', 'test-stream', {})).toThrowError(/dispatch/);
-  expect(() => subscribeToStream('localhost', 'test-stream', null)).toThrowError(/dispatch/);
-  expect(() => subscribeToStream('localhost', 'test-stream', 'function')).toThrowError(/dispatch/);
+  expect(() => subscribeToStream('localhost', 'test-stream', {})).toThrowError(/Invalid dispatch/);
+  expect(() => subscribeToStream('localhost', 'test-stream', null)).toThrowError(/Invalid dispatch/);
+  expect(() => subscribeToStream('localhost', 'test-stream', 'function')).toThrowError(/Invalid dispatch/);
 });
 
 test('it throws an error when pollPeriod is invalid', () => {
-  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, null)).toThrowError(/pollPeriod/);
-  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, {})).toThrowError(/pollPeriod/);
-  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, 'one')).toThrowError(/pollPeriod/);
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, null)).toThrowError(/Invalid pollPeriod/);
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, {})).toThrowError(/Invalid pollPeriod/);
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, 'one')).toThrowError(/Invalid pollPeriod/);
 });
 
 test('it reads the events off the stream and dispatches them, in order', () => {

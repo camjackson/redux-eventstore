@@ -4,6 +4,12 @@ const http = require('http');
 const { createStore } = require('redux');
 const { streamWriter, subscribeToStream } = require('../src/index');
 
+const notFound = res => {
+  res.statusCode = 404;
+  res.statusMessage = 'Not found';
+  res.end()
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // A server that subscribes to an Event Store stream, reducing its events to GET-able, in-memory state //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,9 +34,7 @@ const { streamWriter, subscribeToStream } = require('../src/index');
       res.writeHead(200, { 'Content-Length': Buffer.byteLength(body), 'Content-Type': 'application/json' });
       res.end(body);
     } else {
-      res.statusCode = 404;
-      res.statusMessage = 'Not found';
-      res.end()
+      notFound(res);
     }
   };
 
@@ -65,6 +69,8 @@ const { streamWriter, subscribeToStream } = require('../src/index');
           writeToStream(add(amount));
         } else if(req.url === '/multiplyEvent') {
           writeToStream(multiply(amount));
+        } else {
+          notFound(res);
         }
 
         res.statusCode = 201;
@@ -72,9 +78,7 @@ const { streamWriter, subscribeToStream } = require('../src/index');
         res.end()
       });
     } else {
-      res.statusCode = 404;
-      res.statusMessage = 'Not found';
-      res.end()
+      notFound(res);
     }
   };
 
