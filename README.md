@@ -68,6 +68,9 @@ Creates a function that allows you to write events to an Event Store stream.
 *(Function(`event`))*: A function for writing events to the Event Store:
   - `event` *(Object)*: The event to write to the store. Must have a `type` property, as a non-empty string.
 
+This function throws an error when failing synchronously due to an invalid argument. Otherwise it returns a promise,
+which resolves or rejects based on the server response.
+
 **Example:**
 
 ```js

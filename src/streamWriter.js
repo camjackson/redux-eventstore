@@ -9,7 +9,7 @@ const streamWriter = (host, stream) => {
     validate(event, 'event', 'object', true);
     validate(event.type, 'event type', 'string', true);
     const { type, ...data } = event;
-    post(`${host}/streams/${stream}`, [{ eventId: uuid.v4(), eventType: type, data }]);
+    return post(`${host}/streams/${stream}`, [{ eventId: uuid.v4(), eventType: type, data }]);
   };
 };
 

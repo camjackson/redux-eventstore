@@ -29,6 +29,16 @@ test('it throws an error when the event type is invalid', () => {
   expect(() => writeToStream({ type: {} })).toThrowError(/Invalid event type/);
 });
 
+test('it rejects when the server returns an error', () => {
+  const writeToStream = streamWriter('localhost', 'error-stream');
+
+  return new Promise((resolve, reject) => (
+    writeToStream({ type: 'SOME_EVENT' })
+      .then(reject)
+      .catch(resolve)
+  ));
+});
+
 test('it POSTs the event to the event store', () => {
   const writeToStream = streamWriter('http://0.0.0.0:2113', 'test-stream');
 
@@ -45,7 +55,8 @@ test('it POSTs the event to the event store', () => {
     ))
     .reply(201);
 
-  writeToStream({ type: 'SOME_EVENT', amount: 7 });
-
-  expect(eventStream.isDone()).toBe(true);
+  return writeToStream({ type: 'SOME_EVENT', amount: 7 })
+    .then(() => {
+      expect(eventStream.isDone()).toBe(true);
+    });
 });

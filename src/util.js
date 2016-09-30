@@ -23,6 +23,9 @@ export const post = (uri, body) => (
     const headers = { 'Accept': atomJson, 'Content-Type': eventsJson, 'Content-Length': Buffer.byteLength(data) };
 
     const req = http.request({ ...url.parse(uri), method: 'POST', headers }, handleResult(resolve, reject));
+
+    req.on('error', reject);
+
     req.write(data);
     req.end();
   })
