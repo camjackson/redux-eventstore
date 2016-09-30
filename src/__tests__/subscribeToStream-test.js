@@ -51,12 +51,34 @@ test('it reads the events off the stream and dispatches them, in order', () => {
 
   subscribeToStream('http://0.0.0.0:2113', 'test-stream', store.dispatch);
 
-  // Ugly race condition test :/
   return new Promise(resolve => {
-    setTimeout(() => {
-      nock.restore();
+    setInterval(() => {
       expect(store.getState()).toBe(15);
       resolve();
-    }, 100);
+    }, 500);
+  });
+});
+
+it('it skips events that have no content or eventType', () => {
+  const store = createStore(testReducer);
+
+  nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' }})
+    .get('/streams/other-stream/0')
+      .reply(200, { })
+    .get('/streams/other-stream/1')
+      .reply(200, { content: { data: { amount: 5 } } })
+    .get('/streams/other-stream/2')
+      .reply(200, { content: { eventType: 'ADD', data: { amount: 2 } } })
+    .get('/streams/other-stream/3')
+      .reply(404)
+    .persist();
+
+  subscribeToStream('http://0.0.0.0:2113', 'other-stream', store.dispatch);
+
+  return new Promise(resolve => {
+    setInterval(() => {
+      expect(store.getState()).toBe(2);
+      resolve();
+    }, 500);
   });
 });
