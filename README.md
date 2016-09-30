@@ -32,13 +32,20 @@ Just like when you call `dispatch` on a redux store in the frontend, this method
 1. To [reduce](http://redux.js.org/docs/basics/Reducers.html) the sequence of events into an in-memory state, which can then be queried
 2. To perform some [asynchronous task](http://redux.js.org/docs/advanced/AsyncActions.html) or side-effect when a particular event occurs
 
+If an error occurs when dispatching an event, then the event will just be skipped over, moving to the next one in the stream.
+
 **Parameters:**
 
- - `host`: The host where your Event Store instance is located. Include the scheme (protocol), FQDN, and port
- - `stream`: The name of the stream to subscribe to
- - `dispatch`: The callback function that will receive all events read off the stream. This is intended to be the dispatch
+ - `host` *(String)*: The host where your Event Store is located. Include the scheme (protocol), FQDN, and port
+ - `stream` *(String)*: The name of the stream to subscribe to
+ - `dispatch` *(Function(`event`))*: The callback function that will receive each event read off the stream. This is intended to be the dispatch
  method of a redux store, but really it could be any function with one parameter
- - `pollPeriod`: How many milliseconds to wait between polls of the stream (*default: 1000*)
+ - [`pollPeriod`] *(Number)*: How many milliseconds to wait between polls of the stream (*default: 1000*)
+
+**Returns:**
+
+*(Promise)* At the moment, this will never be resolved or rejected, as the function will poll and retry forever.
+In a future version, if error handling is more customisable, it might be rejected.
 
 **Example:**
 
@@ -53,8 +60,13 @@ Creates a function that allows you to write events to an Event Store stream.
 
 **Parameters:**
 
- - `host`: The host where your Event Store instance is located. Include the scheme (protocol), FQDN, and port
- - `stream`: The name of the stream to write to
+ - `host` *(String)*: The host where your Event Store is located. Include the scheme (protocol), FQDN, and port
+ - `stream` *(String)*: The name of the stream to subscribe to
+
+**Returns:**
+
+*(Function(`event`))*: A function for writing events to the Event Store:
+  - `event` *(Object)*: The event to write to the store. Must have a `type` property, as a non-empty string.
 
 **Example:**
 
