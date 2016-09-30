@@ -26,19 +26,19 @@ test('it throws an error when pollPeriod is invalid', () => {
   expect(() => subscribeToStream('localhost', 'test-stream', () => {}, 'one')).toThrowError(/Invalid pollPeriod/);
 });
 
-test('it reads the events off the stream and dispatches them, in order', () => {
-  const rootReducer = (state = 0, event) => {
-    switch(event.type) {
-      case 'ADD':
-        return state + event.amount;
-      case 'MULTIPLY':
-        return state * event.amount;
-      default:
-        return state;
-    }
-  };
+const testReducer = (state = 0, event) => {
+  switch(event.type) {
+    case 'ADD':
+      return state + event.amount;
+    case 'MULTIPLY':
+      return state * event.amount;
+    default:
+      return state;
+  }
+};
 
-  const store = createStore(rootReducer);
+test('it reads the events off the stream and dispatches them, in order', () => {
+  const store = createStore(testReducer);
 
   nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' }})
     .persist()
@@ -54,6 +54,7 @@ test('it reads the events off the stream and dispatches them, in order', () => {
   // Ugly race condition test :/
   return new Promise(resolve => {
     setTimeout(() => {
+      nock.restore();
       expect(store.getState()).toBe(15);
       resolve();
     }, 100);
