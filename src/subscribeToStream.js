@@ -1,6 +1,4 @@
-'use strict';
-
-const { get, validate, sleep } = require('./util');
+import { get, validate, sleep } from './util';
 
 async function pollStream(host, stream, dispatch, pollPeriod) {
   let index = 0;
@@ -24,4 +22,4 @@ const subscribeToStream = (host, stream, dispatch, pollPeriod=1000) => {
   return pollStream(host, stream, dispatch, pollPeriod);
 };
 
-module.exports = subscribeToStream;
+export default subscribeToStream;

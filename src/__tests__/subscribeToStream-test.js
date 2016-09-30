@@ -1,8 +1,6 @@
-'use strict';
-
-const redux = require('redux');
-const nock = require('nock');
-const subscribeToStream = require('../subscribeToStream');
+import { createStore } from 'redux';
+import nock from 'nock';
+import subscribeToStream from '../subscribeToStream';
 
 test('it throws an error when host is not valid', () => {
   expect(() => subscribeToStream(null, 'test-stream', () => {})).toThrowError(/Invalid host/);
@@ -40,7 +38,7 @@ test('it reads the events off the stream and dispatches them, in order', () => {
     }
   };
 
-  const store = redux.createStore(rootReducer);
+  const store = createStore(rootReducer);
 
   nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' }})
     .persist()

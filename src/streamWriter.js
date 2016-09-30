@@ -1,7 +1,5 @@
-'use strict';
-
-const uuid = require('uuid');
-const { post, validate } = require('./util');
+import uuid from 'uuid';
+import { post, validate } from './util';
 
 const streamWriter = (host, stream) => {
   validate(host, 'host', 'string', true);
@@ -13,4 +11,5 @@ const streamWriter = (host, stream) => {
     post(`${host}/streams/${stream}`, [{ eventId: uuid.v4(), eventType: type, data }]);
   };
 };
-module.exports = streamWriter;
+
+export default streamWriter;

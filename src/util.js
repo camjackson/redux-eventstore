@@ -1,7 +1,5 @@
-'use strict';
-
-const http = require('http');
-const url = require('url');
+import http from 'http';
+import url from 'url';
 
 const eventsJson = 'application/vnd.eventstore.events+json';
 const atomJson = 'application/vnd.eventstore.atom+json';
@@ -12,13 +10,13 @@ const handleResult = resolve => res => {
   res.on('end', () => resolve(body && JSON.parse(body)));
 };
 
-const get = uri => (
+export const get = uri => (
   new Promise(resolve => (
     http.get({ ...url.parse(uri), headers: { Accept: atomJson } }, handleResult(resolve))
   ))
 );
 
-const post = (uri, body) => (
+export const post = (uri, body) => (
   new Promise(resolve => {
     const data = JSON.stringify(body);
     const headers = { 'Accept': atomJson, 'Content-Type': eventsJson, 'Content-Length': Buffer.byteLength(data) };
@@ -29,14 +27,12 @@ const post = (uri, body) => (
   })
 );
 
-const validate = (value, name, type, required=false) => {
+export const validate = (value, name, type, required=false) => {
   if (typeof value !== type || (required && !value)) {
     throw new Error(`Invalid ${name}: ${value}`);
   }
 };
 
-const sleep = duration => (
+export const sleep = duration => (
   new Promise(resolve => setTimeout(resolve, duration))
 );
-
-module.exports = { get, post, validate, sleep };

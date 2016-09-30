@@ -1,10 +1,6 @@
-'use strict';
+import 'babel-polyfill';
 
-require('babel-polyfill');
+import streamWriter from './streamWriter';
+import subscribeToStream from './subscribeToStream';
 
-const streamWriter = require('./streamWriter');
-const subscribeToStream = require('./subscribeToStream');
-
-module.exports = {
-  streamWriter, subscribeToStream
-};
+export { streamWriter, subscribeToStream };

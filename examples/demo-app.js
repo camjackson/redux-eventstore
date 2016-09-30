@@ -1,8 +1,6 @@
-'use strict';
-
-const http = require('http');
-const { createStore } = require('redux');
-const { streamWriter, subscribeToStream } = require('../src/index');
+import http from 'http';
+import { createStore } from 'redux';
+import { streamWriter, subscribeToStream } from '../src/index';
 
 const notFound = res => {
   res.statusCode = 404;

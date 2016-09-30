@@ -1,7 +1,5 @@
-'use strict';
-
-const nock = require('nock');
-const streamWriter = require('../streamWriter');
+import nock from 'nock';
+import streamWriter from '../streamWriter';
 
 test('it throws an error when host is not valid', () => {
   expect(() => streamWriter(null, 'test-stream')).toThrowError(/Invalid host/);
