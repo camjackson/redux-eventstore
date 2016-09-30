@@ -7,7 +7,7 @@ async function pollStream(host, stream, dispatch, pollPeriod) {
       const event = await get(`${host}/streams/${stream}/${index}`);
       index++;
       if (event.content && event.content.eventType) {
-        dispatch({ type: event.content.eventType, ...event.content.data });
+        await dispatch({ type: event.content.eventType, ...event.content.data });
       }
     } catch (e) {
       await sleep(pollPeriod);
