@@ -12,9 +12,11 @@ const handleResult = (resolve, reject) => res => {
 };
 
 export const get = uri => (
-  new Promise((resolve, reject) => (
-    http.get({ ...url.parse(uri), headers: { Accept: atomJson } }, handleResult(resolve, reject))
-  ))
+  new Promise((resolve, reject) => {
+    const req = http.get({ ...url.parse(uri), headers: { Accept: atomJson } }, handleResult(resolve, reject));
+
+    req.on('error', reject);
+  })
 );
 
 export const post = (uri, body) => (

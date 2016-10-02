@@ -39,7 +39,7 @@ If an error occurs when dispatching an event, then the event will just be skippe
  - `host` *(String)*: The host where your Event Store is located. Include the scheme (protocol), FQDN, and port
  - `stream` *(String)*: The name of the stream to subscribe to
  - `dispatch` *(Function(`event`))*: The callback function that will receive each event read off the stream. This is intended to be the dispatch
- method of a redux store, but really it could be any function with one parameter
+ method of a redux store, but really it could be any function
  - [`pollPeriod`] *(Number)*: How many milliseconds to wait between polls of the stream (*default: 1000*)
 
 **Returns:**
@@ -91,8 +91,6 @@ This is why the `redux-eventstore` docs, examples, and source code all refer to 
 keep this in mind when using it.
 
 ## Limitations
-  - There is almost zero handling of server errors
-  ([#11](https://github.com/camjackson/redux-eventstore/issues/11) and [#12](https://github.com/camjackson/redux-eventstore/issues/12))
   - There is no auth yet ([#13](https://github.com/camjackson/redux-eventstore/issues/13))
   - There is no logging, which may make troubleshooting difficult ([#4](https://github.com/camjackson/redux-eventstore/issues/4))
   - It was developed with node v6, and other versions have not been tested yet. ([#5](https://github.com/camjackson/redux-eventstore/issues/5))
