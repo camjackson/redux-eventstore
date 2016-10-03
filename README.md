@@ -21,6 +21,30 @@ For a full example, see [`demo-app.js`](https://github.com/camjackson/redux-even
 It shows two separate servers communicating via Event Store: one receives events via POST request and writes to a stream;
 the other subscribes to the stream and exposes the aggregated state via GET request.
 
+### `streamWriter(host, stream)`
+
+Creates a function that allows you to write events to an Event Store stream.
+
+**Parameters:**
+
+ - `host` *(String)*: The host where your Event Store is located. Include the scheme (protocol), FQDN, and port
+ - `stream` *(String)*: The name of the stream to subscribe to
+
+**Returns:**
+
+*(Function(`event`))*: A function for writing events to the Event Store:
+  - `event` *(Object)*: The event to write to the store. Must have a `type` property, as a non-empty string.
+
+This function throws an error when failing synchronously due to an invalid argument. Otherwise it returns a promise,
+which resolves or rejects based on the server response.
+
+**Example:**
+
+```js
+const writeToStream = streamWriter('https://event-store.my-domain.com:2113', 'my-stream');
+writeToStream({ type: 'USER_CREATED', name: "Jane Smith" });
+```
+
 ### `subscribeToStream(host, stream, dispatch, [pollPeriod=1000])`
 
 Subscribes to an Event Store stream, dispatching all events from that stream to your redux store. Initially, all previous
@@ -52,30 +76,6 @@ In a future version, if error handling is more customisable, it might be rejecte
 ```js
 const store = redux.createStore(rootReducer);
 subscribeToStream('https://event-store.my-domain.com:2113', 'my-stream', store.dispatch, 500);
-```
-
-### `streamWriter(host, stream)`
-
-Creates a function that allows you to write events to an Event Store stream.
-
-**Parameters:**
-
- - `host` *(String)*: The host where your Event Store is located. Include the scheme (protocol), FQDN, and port
- - `stream` *(String)*: The name of the stream to subscribe to
-
-**Returns:**
-
-*(Function(`event`))*: A function for writing events to the Event Store:
-  - `event` *(Object)*: The event to write to the store. Must have a `type` property, as a non-empty string.
-
-This function throws an error when failing synchronously due to an invalid argument. Otherwise it returns a promise,
-which resolves or rejects based on the server response.
-
-**Example:**
-
-```js
-const writeToStream = streamWriter('https://event-store.my-domain.com:2113', 'my-stream');
-writeToStream({ type: 'USER_CREATED', name: "Jane Smith" });
 ```
 
 ## Events vs. actions
