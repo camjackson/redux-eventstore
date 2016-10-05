@@ -13,6 +13,12 @@ test('it throws an error when stream name is invalid', () => {
   expect(() => streamWriter('localhost', '')).toThrowError(/Invalid stream/);
 });
 
+test('it throws an error when logger is invalid', () => {
+  expect(() => streamWriter('localhost', 'test-stream', { logger: null })).toThrowError(/Invalid logger/);
+  expect(() => streamWriter('localhost', 'test-stream', { logger: {} })).toThrowError(/Invalid logger/);
+  expect(() => streamWriter('localhost', 'test-stream', { logger: 'one' })).toThrowError(/Invalid logger/);
+});
+
 test('it throws an error when the event is invalid', () => {
   const writeToStream = streamWriter('localhost', 'test-stream');
 

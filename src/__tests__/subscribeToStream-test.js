@@ -21,9 +21,15 @@ test('it throws an error when dispatch is invalid', () => {
 });
 
 test('it throws an error when pollPeriod is invalid', () => {
-  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, null)).toThrowError(/Invalid pollPeriod/);
-  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, {})).toThrowError(/Invalid pollPeriod/);
-  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, 'one')).toThrowError(/Invalid pollPeriod/);
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, { pollPeriod: null })).toThrowError(/Invalid pollPeriod/);
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, { pollPeriod: {} })).toThrowError(/Invalid pollPeriod/);
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, { pollPeriod: 'one' })).toThrowError(/Invalid pollPeriod/);
+});
+
+test('it throws an error when logger is invalid', () => {
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, { logger: null })).toThrowError(/Invalid logger/);
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, { logger: {} })).toThrowError(/Invalid logger/);
+  expect(() => subscribeToStream('localhost', 'test-stream', () => {}, { logger: 'one' })).toThrowError(/Invalid logger/);
 });
 
 const testReducer = (state = 0, event) => {

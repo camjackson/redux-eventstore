@@ -29,6 +29,8 @@ Creates a function that allows you to write events to an Event Store stream.
 
  - `host` *(String)*: The host where your Event Store is located. Include the scheme (protocol), FQDN, and port
  - `stream` *(String)*: The name of the stream to subscribe to
+ - [`opts`] *(Object)*: Other configuration options. All are optional:
+   - [`logger`] *(Function(`msg`)*: A function that will be invoked with log messages
 
 **Returns:**
 
@@ -64,7 +66,9 @@ If an error occurs when dispatching an event, then the event will just be skippe
  - `stream` *(String)*: The name of the stream to subscribe to
  - `dispatch` *(Function(`event`))*: The callback function that will receive each event read off the stream. This is intended to be the dispatch
  method of a redux store, but really it could be any function
- - [`pollPeriod`] *(Number)*: How many milliseconds to wait between polls of the stream (*default: 1000*)
+ - [`opts`] *(Object)*: Other configuration options. All are optional:
+   - [`pollPeriod`] *(Number)*: How many milliseconds to wait between polls of the stream (*default: 1000*)
+   - [`logger`] *(Function(`msg`)*: A function that will be invoked with log messages
 
 **Returns:**
 
