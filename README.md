@@ -31,6 +31,9 @@ Creates a function that allows you to write events to an Event Store stream.
  - `stream` *(String)*: The name of the stream to subscribe to
  - [`opts`] *(Object)*: Other configuration options. All are optional:
    - [`logger`] *(Function(`msg`)*: A function that will be invoked with log messages
+   - [`auth`] *(Object)*: Basic auth credentials
+     - `user` *(String)*: The EventStore username
+     - `pass` *(String)*: The user's password
 
 **Returns:**
 
@@ -69,6 +72,9 @@ If an error occurs when dispatching an event, then the event will just be skippe
  - [`opts`] *(Object)*: Other configuration options. All are optional:
    - [`pollPeriod`] *(Number)*: How many milliseconds to wait between polls of the stream (*default: 1000*)
    - [`logger`] *(Function(`msg`)*: A function that will be invoked with log messages
+   - [`auth`] *(Object)*: Basic auth credentials
+     - `user` *(String)*: The EventStore username
+     - `pass` *(String)*: The user's password
 
 **Returns:**
 
@@ -95,6 +101,4 @@ This is why the `redux-eventstore` docs, examples, and source code all refer to 
 keep this in mind when using it.
 
 ## Limitations
-  - There is no auth yet ([#13](https://github.com/camjackson/redux-eventstore/issues/13))
-  - There is no logging, which may make troubleshooting difficult ([#4](https://github.com/camjackson/redux-eventstore/issues/4))
   - It was developed with node v6, and other versions have not been tested yet. ([#5](https://github.com/camjackson/redux-eventstore/issues/5))

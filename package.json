@@ -6,7 +6,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "babel -d dist src/index.js src/streamWriter.js src/subscribeToStream.js src/util.js",
-    "start": "babel-node examples/demo-app.js",
+    "demo": "babel-node examples/demo-app.js",
     "test": "jest --watch",
     "test-once": "jest"
   },

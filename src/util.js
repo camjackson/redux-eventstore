@@ -12,19 +12,27 @@ const handleResult = (resolve, reject, logger) => res => {
   res.on('end', () => done(body && JSON.parse(body)));
 };
 
-export const get = (uri, logger) => (
+export const get = (uri, auth, logger) => (
   new Promise((resolve, reject) => {
     logger(`HTTP GET ${uri}`);
-    const req = http.get({ ...url.parse(uri), headers: { Accept: atomJson } }, handleResult(resolve, reject, logger));
+    const headers = { Accept: atomJson, 'Content-Type': '1' };
+    if (auth) {
+      headers.Authorization = auth;
+    }
+
+    const req = http.get({ ...url.parse(uri), headers }, handleResult(resolve, reject, logger));
 
     req.on('error', reject);
   })
 );
 
-export const post = (uri, body, logger) => (
+export const post = (uri, body, auth, logger) => (
   new Promise((resolve, reject) => {
     const data = JSON.stringify(body);
     const headers = { 'Accept': atomJson, 'Content-Type': eventsJson, 'Content-Length': Buffer.byteLength(data) };
+    if (auth) {
+      headers.Authorization = auth;
+    }
 
     logger(`HTTP POST: ${uri}, ${data}`);
     const req = http.request({ ...url.parse(uri), method: 'POST', headers }, handleResult(resolve, reject, logger));
@@ -35,6 +43,8 @@ export const post = (uri, body, logger) => (
     req.end();
   })
 );
+
+export const encodeAuth = auth => `Basic ${new Buffer(`${auth.user}:${auth.pass}`).toString('base64')}`;
 
 export const validate = (value, name, type, required=false) => {
   if (typeof value !== type || (required && !value)) {
