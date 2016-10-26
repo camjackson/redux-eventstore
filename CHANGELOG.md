@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+-
+
+## v0.0.1
+### Added
 - Project setup, build process, docs, etc
 - `subscribeToStream`
 - `streamWriter`
