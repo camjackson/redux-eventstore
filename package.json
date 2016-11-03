@@ -2,10 +2,10 @@
   "name": "redux-eventstore",
   "version": "0.0.1",
   "description": "Easy CQRS and event sourcing with Node.js, Redux, and Event Store",
-  "main": "dist/src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "prepublish": "npm run build",
-    "build": "babel -d dist src/index.js src/streamWriter.js src/subscribeToStream.js src/util.js",
+    "build": "babel src -d dist --ignore '**/*-test.js'",
     "demo": "babel-node examples/demo-app.js",
     "test": "jest --watch",
     "test-once": "jest"
