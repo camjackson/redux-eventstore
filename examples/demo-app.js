@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 import { createStore } from 'redux';
-import { streamWriter, subscribeToStream } from '../src/index';
+import { createStream } from '../src/index';
 
 const logGreen = msg => console.log(`\x1b[32m${msg}\x1b[39m`);
 const logBlue = msg => console.log(`\x1b[34m${msg}\x1b[39m`);
@@ -11,6 +11,8 @@ const logBlue = msg => console.log(`\x1b[34m${msg}\x1b[39m`);
 // A server that subscribes to an Event Store stream, reducing its events to GET-able, in-memory state //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 (() => {
+  const stream = createStream('http://localhost:2113', 'demo-stream');
+
   const rootReducer = (state = 0, event) => {
     switch(event.type) {
       case 'ADD':
@@ -22,8 +24,7 @@ const logBlue = msg => console.log(`\x1b[34m${msg}\x1b[39m`);
     }
   };
   const store = createStore(rootReducer);
-
-  subscribeToStream('http://localhost:2113', 'demo-stream', store.dispatch);
+  stream.subscribe(store.dispatch);
 
   const app = express();
 
@@ -32,18 +33,13 @@ const logBlue = msg => console.log(`\x1b[34m${msg}\x1b[39m`);
   });
 
   app.listen(8080);
-
-  logBlue('\n------------');
-  logBlue('GET the reduced state from :8080! For example:');
-  logBlue('curl http://localhost:8080/amount');
-  logBlue("Modify demo-app.js if you'd like to see more detailed logging")
 })();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // A server that receives events as POST requests and writes them to an Event Store stream //
 /////////////////////////////////////////////////////////////////////////////////////////////
 (() => {
-  const writeToStream = streamWriter('http://localhost:2113', 'demo-stream');
+  const stream = createStream('http://localhost:2113', 'demo-stream');
 
   // These are event creators, just like regular action creators:
   // http://redux.js.org/docs/basics/Actions.html#action-creators
@@ -54,25 +50,25 @@ const logBlue = msg => console.log(`\x1b[34m${msg}\x1b[39m`);
   app.use(bodyParser.json({ type: '*/*' }));
 
   app.post('/addEvent', (req, res) => {
-    writeToStream(add(req.body.amount));
-
+    stream.write(add(req.body.amount));
     res.status(201).send('Created');
   });
 
   app.post('/multiplyEvent', (req, res) => {
-    writeToStream(multiply(req.body.amount));
-
+    stream.write(multiply(req.body.amount));
     res.status(201).send('Created');
   });
 
   app.listen(8081);
-
-  // Try to make these come after the logs from the other server. Async is hard.
-  setTimeout(() => {
-    logGreen('\n------------');
-    logGreen('POST your events to :8081! For example:');
-    logGreen(`curl http://localhost:8081/addEvent -d '{"amount": 7 }'`);
-    logGreen(`curl http://localhost:8081/multiplyEvent -d '{"amount": 3 }'`);
-    logGreen("Modify demo-app.js if you'd like to see more detailed logging")
-  }, 1000);
 })();
+
+logBlue('\n------------');
+logBlue('GET the reduced state from :8080! For example:');
+logBlue('curl http://localhost:8080/amount');
+logBlue("Modify demo-app.js if you'd like to see more detailed logging");
+
+logGreen('\n------------');
+logGreen('POST your events to :8081! For example:');
+logGreen(`curl http://localhost:8081/addEvent -d '{"amount": 7 }'`);
+logGreen(`curl http://localhost:8081/multiplyEvent -d '{"amount": 3 }'`);
+logGreen("Modify demo-app.js if you'd like to see more detailed logging");

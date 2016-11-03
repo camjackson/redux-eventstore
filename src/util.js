@@ -26,7 +26,7 @@ export const get = (uri, auth, logger) => (
   })
 );
 
-export const post = (uri, body, auth, logger) => (
+export const post = (uri, auth, logger, body) => (
   new Promise((resolve, reject) => {
     const data = JSON.stringify(body);
     const headers = { 'Accept': atomJson, 'Content-Type': eventsJson, 'Content-Length': Buffer.byteLength(data) };
