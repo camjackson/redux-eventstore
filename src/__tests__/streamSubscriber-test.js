@@ -6,7 +6,7 @@ describe('streamSubscriber', () => {
   const auth = null;
   const logger = () => {};
   const testReducer = (state = 0, event) => {
-    switch(event.type) {
+    switch (event.type) {
       case 'ADD':
         return state + event.amount;
       case 'MULTIPLY':
@@ -104,7 +104,7 @@ describe('streamSubscriber', () => {
       throw new Error(':(');
     };
 
-    const server = nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' }})
+    const server = nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' } })
       .persist()
       .get('/streams/error-stream/0')
         .reply(200, { content: { eventType: 'ADD' } })
@@ -125,7 +125,7 @@ describe('streamSubscriber', () => {
   it('it continues on when the dispatch returns a rejected promise', () => {
     const dispatch = () => Promise.reject();
 
-    const server = nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' }})
+    const server = nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' } })
       .persist()
       .get('/streams/reject-stream/0')
         .reply(200, { content: { eventType: 'ADD' } })

@@ -9,7 +9,7 @@ export const createStream = (host, stream, { auth = null, logger = defaultLogger
   validate(stream, 'stream', 'string', true);
   validate(logger, 'logger', 'function', true);
   validate(auth, 'auth', 'object');
-  let encodedAuth = undefined;
+  let encodedAuth;
   if (auth) {
     validate(auth.user, 'auth.user', 'string', true);
     validate(auth.pass, 'auth.pass', 'string', true);

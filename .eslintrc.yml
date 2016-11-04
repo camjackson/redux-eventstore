@@ -1,0 +1,17 @@
+extends: airbnb-base
+env:
+  jest: true
+rules:
+  global-require: warn #See https://github.com/camjackson/redux-eventstore/issues/20
+  no-constant-condition: off
+  no-plusplus: off
+  import/prefer-default-export: off
+  arrow-parens:
+    - error
+    - as-needed
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies: ['**/*-test.js']
+  valid-typeof:
+    - error
+    - requireStringLiterals: false

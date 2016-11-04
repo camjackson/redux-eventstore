@@ -1,32 +1,31 @@
 # Contributing
 Feature requests and bug reports are appreciated.
 
-Pull requests are also welcome:
- - Please try to match the existing code style of the project
- - Please add automated tests for any new code
+Pull requests are also welcome. Just make sure the linter and tests pass, and that you add tests for any new code.
+
+This project uses [`yarn`](https://yarnpkg.com/) rather than the regular npm cli. You should use it too when working on
+this project, especially when installing or adding dependencies. Just do `npm install -g yarn` to get it.
 
 ## Install
-Install node v6, then clone and install package dependencies:
+Install node v6, then install yarn, then clone and install package dependencies:
 ```sh
 git clone ssh://git@github.com:camjackson/redux-eventstore
-npm install
+yarn
 ```
 
-## Tests
-Run with watching (for development):
+## Tests (in watch mode)
 ```sh
-npm test
+yarn test
 ```
 
-Run once (for CI):
+## Linting
 ```sh
-npm run test-once
+yarn lint
 ```
 
 ## Demo
-Run the demo with:
 ```sh
-npm run demo
+yarn demo
 ```
 
 You'll need a local Event Store running on port 2113 for the demo to work.
@@ -37,4 +36,4 @@ sudo docker pull eventstore/eventstore
 sudo docker run --name eventstore-node -it -p 2113:2113 -p 1113:1113 eventstore/eventstore
 ```
 
-You can inspect the event streams [in your browser](http://0.0.0.0:2113/web/index.html#/streams/demo-stream), too.
+You can then inspect the event streams [in your browser](http://0.0.0.0:2113/web/index.html#/streams/demo-stream).

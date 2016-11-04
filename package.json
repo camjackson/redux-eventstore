@@ -4,11 +4,12 @@
   "description": "Easy CQRS and event sourcing with Node.js, Redux, and Event Store",
   "main": "dist/index.js",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublish": "yarn build",
     "build": "babel src -d dist --ignore '**/*-test.js'",
     "demo": "babel-node examples/demo-app.js",
+    "lint": "eslint src",
     "test": "jest --watch",
-    "test-once": "jest"
+    "test-once": "yarn lint && jest"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,9 @@
     "babel-preset-es2016": "^6.11.3",
     "babel-preset-es2017": "^6.14.0",
     "body-parser": "^1.15.2",
+    "eslint": "^3.9.1",
+    "eslint-config-airbnb-base": "^9.0.0",
+    "eslint-plugin-import": "^2.1.0",
     "express": "^4.14.0",
     "jest": "^15.1.1",
     "nock": "^8.0.0",

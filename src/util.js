@@ -29,7 +29,7 @@ export const get = (uri, auth, logger) => (
 export const post = (uri, auth, logger, body) => (
   new Promise((resolve, reject) => {
     const data = JSON.stringify(body);
-    const headers = { 'Accept': atomJson, 'Content-Type': eventsJson, 'Content-Length': Buffer.byteLength(data) };
+    const headers = { Accept: atomJson, 'Content-Type': eventsJson, 'Content-Length': Buffer.byteLength(data) };
     if (auth) {
       headers.Authorization = auth;
     }
@@ -46,7 +46,7 @@ export const post = (uri, auth, logger, body) => (
 
 export const encodeAuth = auth => `Basic ${new Buffer(`${auth.user}:${auth.pass}`).toString('base64')}`;
 
-export const validate = (value, name, type, required=false) => {
+export const validate = (value, name, type, required = false) => {
   if (typeof value !== type || (required && !value)) {
     throw new Error(`Invalid ${name}: ${value}`);
   }
