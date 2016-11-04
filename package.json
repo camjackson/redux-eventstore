@@ -27,6 +27,9 @@
     "url": "https://github.com/camjackson/redux-eventstore/issues"
   },
   "homepage": "https://github.com/camjackson/redux-eventstore#readme",
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-jest": "^15.0.0",
