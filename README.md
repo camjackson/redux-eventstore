@@ -6,8 +6,7 @@
 Use this library on your Node.js backend to easily write Redux-style events ([usually known as actions](#events-vs-actions))
 to an [Event Store](https://geteventstore.com/) stream. You can also subscribe a Redux store (still on the backend) to
 the stream, allowing you to page through all the events and reduce it to the current, in-memory state. You can then
-query that state in response to API requests, to provide data to a client (for example). Finally, you could use a Redux
-middleware to perform asynchronous tasks or side-effects in response to an event received from the stream.
+query that state in response to API requests, to provide data to a client (for example).
 
 *(These docs assume some familiarity with Redux. If concepts like actions and reducers are new to you, you may first
 want to go check out the official [Redux docs](http://redux.js.org).)*
