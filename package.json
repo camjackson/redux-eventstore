@@ -1,7 +1,7 @@
 {
   "name": "redux-eventstore",
   "version": "0.0.2",
-  "description": "Easy CQRS and event sourcing with Node.js, Redux, and Event Store",
+  "description": "CQRS, event sourcing, and event collaboration made easy with Node.js, Redux, and Event Store!",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "yarn build",
