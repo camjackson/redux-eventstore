@@ -7,14 +7,14 @@ import { createStream } from '../src/index';
 const logGreen = msg => console.log(`\x1b[32m${msg}\x1b[39m`);
 const logBlue = msg => console.log(`\x1b[34m${msg}\x1b[39m`);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-// A server that subscribes to an Event Store stream, reducing its events to GET-able, in-memory state //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////////////// //
+// A server that subscribes to a stream, reducing its events to GET-able, in-memory state //
+// ////////////////////////////////////////////////////////////////////////////////////// //
 (() => {
   const stream = createStream('http://localhost:2113', 'demo-stream');
 
   const rootReducer = (state = 0, event) => {
-    switch(event.type) {
+    switch (event.type) {
       case 'ADD':
         return state + event.amount;
       case 'MULTIPLY':
@@ -29,15 +29,15 @@ const logBlue = msg => console.log(`\x1b[34m${msg}\x1b[39m`);
   const app = express();
 
   app.get('/amount', (req, res) => {
-    res.send({ amount: store.getState() })
+    res.send({ amount: store.getState() });
   });
 
   app.listen(8080);
 })();
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// A server that receives events as POST requests and writes them to an Event Store stream //
-/////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////// //
+// A server that receives events as POST requests and writes them to a stream //
+// ////////////////////////////////////////////////////////////////////////// //
 (() => {
   const stream = createStream('http://localhost:2113', 'demo-stream');
 
@@ -69,6 +69,6 @@ logBlue("Modify demo-app.js if you'd like to see more detailed logging");
 
 logGreen('\n------------');
 logGreen('POST your events to :8081! For example:');
-logGreen(`curl http://localhost:8081/addEvent -d '{"amount": 7 }'`);
-logGreen(`curl http://localhost:8081/multiplyEvent -d '{"amount": 3 }'`);
+logGreen('curl http://localhost:8081/addEvent -d \'{"amount": 7 }\'');
+logGreen('curl http://localhost:8081/multiplyEvent -d \'{"amount": 3 }\'');
 logGreen("Modify demo-app.js if you'd like to see more detailed logging");

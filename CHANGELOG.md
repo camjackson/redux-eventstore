@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
- - Todo
+ - sideEffectsMiddleware (See issue #18)
 
 ## v0.0.2
 ### Changed
