@@ -1,6 +1,6 @@
 {
   "name": "redux-eventstore",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "CQRS, event sourcing, and event collaboration made easy with Node.js, Redux, and Event Store!",
   "main": "dist/index.js",
   "scripts": {

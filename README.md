@@ -99,12 +99,12 @@ in the stream.
  - [`pollPeriod`] *(Number)*: How many milliseconds to wait between polls of the stream (*default: 1000*)
 
 ## Events vs. actions
-Typically with redux, you dispatch **actions**, which are imperatively named. For example: `CREATE_USER`, or `SEND_EMAIL`.
-This makes sense when you are *asking* for something to happen, and some other part of the application (e.g. a reducer)
-is going to handle the request.
+Typically with redux, you dispatch **actions**, which are imperatively named. For example: `CREATE_USER`. This makes
+sense when you are *asking* for something to happen, and some other part of the application (e.g. a reducer) is going to
+handle the request.
 
 However, with Event Store (or event sourcing in general), it makes more sense to talk about **events** in the past tense,
-representing something that has already happened. For example: `USER_CREATED`, or `EMAIL_SENT`.
+representing something that has already happened. For example: `USER_CREATED`.
 [More explanation here](http://docs.geteventstore.com/introduction/3.9.0/event-sourcing-basics/).
 
 This is why the `redux-eventstore` docs, examples, and source code all refer to events, rather than actions. You should
