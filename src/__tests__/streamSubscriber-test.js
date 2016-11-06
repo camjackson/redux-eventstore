@@ -56,15 +56,13 @@ describe('streamSubscriber', () => {
   });
 
   it('can send basic auth when retrieving the stream', () => {
-    const store = createStore(testReducer);
-
     const server = nock('http://0.0.0.0:2113', { reqheaders: { Authorization: 'Basic Y2FtOnMzY3IzdA==' } })
       .persist()
       .get('/streams/auth-stream/0')
         .reply(200, { content: { eventType: 'ADD', data: { amount: 3 } } });
 
     const subscribe = streamSubscriber('http://0.0.0.0:2113', 'auth-stream', 'Basic Y2FtOnMzY3IzdA==', logger);
-    subscribe(store.dispatch, 50);
+    subscribe(() => {}, 50);
 
     return new Promise(resolve => {
       setInterval(() => {

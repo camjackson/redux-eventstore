@@ -15,7 +15,7 @@ const handleResult = (resolve, reject, logger) => res => {
 export const get = (uri, auth, logger) => (
   new Promise((resolve, reject) => {
     logger(`HTTP GET ${uri}`);
-    const headers = { Accept: atomJson, 'Content-Type': '1' };
+    const headers = { Accept: atomJson };
     if (auth) {
       headers.Authorization = auth;
     }
