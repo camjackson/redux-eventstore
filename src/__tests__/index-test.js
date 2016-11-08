@@ -1,4 +1,6 @@
 import { createStream } from '../index';
+import * as streamWriter from '../streamWriter';
+import * as streamSubscriber from '../streamSubscriber';
 
 describe('createStream', () => {
   it('it throws an error when host is not valid', () => {
@@ -27,31 +29,25 @@ describe('createStream', () => {
   });
 
   it('passes undefined auth when no auth is given', () => {
-    jest.mock('../streamWriter');
-    jest.mock('../streamSubscriber');
-
-    const streamWriter = require('../streamWriter').default;
-    const streamSubscriber = require('../streamSubscriber').default;
+    streamWriter.default = jest.fn();
+    streamSubscriber.default = jest.fn();
 
     const logger = () => {};
     createStream('localhost', 'test-stream', { logger });
 
-    expect(streamWriter).toBeCalledWith('localhost', 'test-stream', undefined, logger);
-    expect(streamSubscriber).toBeCalledWith('localhost', 'test-stream', undefined, logger);
+    expect(streamWriter.default).toBeCalledWith('localhost', 'test-stream', undefined, logger);
+    expect(streamSubscriber.default).toBeCalledWith('localhost', 'test-stream', undefined, logger);
   });
 
   it('encodes the auth when auth is given', () => {
-    jest.mock('../streamWriter');
-    jest.mock('../streamSubscriber');
-
-    const streamWriter = require('../streamWriter').default;
-    const streamSubscriber = require('../streamSubscriber').default;
+    streamWriter.default = jest.fn();
+    streamSubscriber.default = jest.fn();
 
     const logger = () => {};
     const auth = { user: 'some_user', pass: 'some_password' };
     createStream('localhost', 'test-stream', { auth, logger });
 
-    expect(streamWriter).toBeCalledWith('localhost', 'test-stream', 'Basic c29tZV91c2VyOnNvbWVfcGFzc3dvcmQ=', logger);
-    expect(streamSubscriber).toBeCalledWith('localhost', 'test-stream', 'Basic c29tZV91c2VyOnNvbWVfcGFzc3dvcmQ=', logger);
+    expect(streamWriter.default).toBeCalledWith('localhost', 'test-stream', 'Basic c29tZV91c2VyOnNvbWVfcGFzc3dvcmQ=', logger);
+    expect(streamSubscriber.default).toBeCalledWith('localhost', 'test-stream', 'Basic c29tZV91c2VyOnNvbWVfcGFzc3dvcmQ=', logger);
   });
 });
