@@ -16,13 +16,13 @@ export const createStream = (host, stream, { auth = null, logger = defaultLogger
     encodedAuth = encodeAuth(auth);
   }
 
-  const streamWriter = require('./streamWriter');
-  const streamSubscriber = require('./streamSubscriber');
+  const streamWriter = require('./streamWriter').default;
+  const streamSubscriber = require('./streamSubscriber').default;
 
   logger(`Creating stream object for host: ${host}, stream: ${stream}`);
 
   return {
-    write: streamWriter.default(host, stream, encodedAuth, logger),
-    subscribe: streamSubscriber.default(host, stream, encodedAuth, logger),
+    write: streamWriter(host, stream, encodedAuth, logger),
+    subscribe: streamSubscriber(host, stream, encodedAuth, logger),
   };
 };

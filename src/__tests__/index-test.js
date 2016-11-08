@@ -30,28 +30,28 @@ describe('createStream', () => {
     jest.mock('../streamWriter');
     jest.mock('../streamSubscriber');
 
-    const streamWriter = require('../streamWriter');
-    const streamSubscriber = require('../streamSubscriber');
+    const streamWriter = require('../streamWriter').default;
+    const streamSubscriber = require('../streamSubscriber').default;
 
     const logger = () => {};
     createStream('localhost', 'test-stream', { logger });
 
-    expect(streamWriter.default).toBeCalledWith('localhost', 'test-stream', undefined, logger);
-    expect(streamSubscriber.default).toBeCalledWith('localhost', 'test-stream', undefined, logger);
+    expect(streamWriter).toBeCalledWith('localhost', 'test-stream', undefined, logger);
+    expect(streamSubscriber).toBeCalledWith('localhost', 'test-stream', undefined, logger);
   });
 
   it('encodes the auth when auth is given', () => {
     jest.mock('../streamWriter');
     jest.mock('../streamSubscriber');
 
-    const streamWriter = require('../streamWriter');
-    const streamSubscriber = require('../streamSubscriber');
+    const streamWriter = require('../streamWriter').default;
+    const streamSubscriber = require('../streamSubscriber').default;
 
     const logger = () => {};
     const auth = { user: 'some_user', pass: 'some_password' };
     createStream('localhost', 'test-stream', { auth, logger });
 
-    expect(streamWriter.default).toBeCalledWith('localhost', 'test-stream', 'Basic c29tZV91c2VyOnNvbWVfcGFzc3dvcmQ=', logger);
-    expect(streamSubscriber.default).toBeCalledWith('localhost', 'test-stream', 'Basic c29tZV91c2VyOnNvbWVfcGFzc3dvcmQ=', logger);
+    expect(streamWriter).toBeCalledWith('localhost', 'test-stream', 'Basic c29tZV91c2VyOnNvbWVfcGFzc3dvcmQ=', logger);
+    expect(streamSubscriber).toBeCalledWith('localhost', 'test-stream', 'Basic c29tZV91c2VyOnNvbWVfcGFzc3dvcmQ=', logger);
   });
 });
