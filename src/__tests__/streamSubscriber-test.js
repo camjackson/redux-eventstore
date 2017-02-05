@@ -11,6 +11,8 @@ describe('streamSubscriber', () => {
         return state + event.amount;
       case 'MULTIPLY':
         return state * event.amount;
+      case 'SUBTRACT':
+        return state - event.metadata.amount;
       default:
         return state;
     }
@@ -32,6 +34,14 @@ describe('streamSubscriber', () => {
     expect(() => subscribe(() => {}, 'one')).toThrowError(/Invalid pollPeriod/);
   });
 
+  it('it throws an error when includeMetadata is invalid', () => {
+    const subscribe = streamSubscriber('localhost', 'test-stream', auth, logger);
+
+    expect(() => subscribe(() => {}, 1000, null)).toThrowError(/Invalid includeMetadata/);
+    expect(() => subscribe(() => {}, 1000, {})).toThrowError(/Invalid includeMetadata/);
+    expect(() => subscribe(() => {}, 1000, 'yes')).toThrowError(/Invalid includeMetadata/);
+  });
+
   it('it reads the events off the stream and dispatches them, in order', () => {
     const store = createStore(testReducer);
 
@@ -42,7 +52,9 @@ describe('streamSubscriber', () => {
       .get('/streams/test-stream/1')
         .reply(200, { content: { eventType: 'MULTIPLY', data: { amount: 5 } } })
       .get('/streams/test-stream/2')
-        .reply(404);
+        .reply(404)
+      .get('/streams/test-stream/3')
+        .reply(200, { content: { eventType: 'SUBTRACT', data: { }, metadata: { amount: 10 } } });
 
     const subscribe = streamSubscriber('http://0.0.0.0:2113', 'test-stream', auth, logger);
     subscribe(store.dispatch, 50);
@@ -55,7 +67,30 @@ describe('streamSubscriber', () => {
     });
   });
 
-  it('can send basic auth when retrieving the stream', () => {
+  it('it reads the events off the stream and includes metadata', () => {
+    const store = createStore(testReducer);
+
+    nock('http://0.0.0.0:2113', { reqheaders: { Accept: 'application/vnd.eventstore.atom+json' } })
+      .persist()
+      .get('/streams/metadata-stream/0')
+        .reply(200, { content: { eventType: 'ADD', data: { amount: 3 } } })
+      .get('/streams/metadata-stream/1')
+        .reply(200, { content: { eventType: 'MULTIPLY', data: { amount: 5 } } })
+      .get('/streams/metadata-stream/2')
+        .reply(200, { content: { eventType: 'SUBTRACT', data: { amount: 0 }, metadata: { amount: 10 } } });
+
+    const subscribe = streamSubscriber('http://0.0.0.0:2113', 'metadata-stream', auth, logger);
+    subscribe(store.dispatch, 50, true);
+
+    return new Promise(resolve => {
+      setInterval(() => {
+        expect(store.getState()).toBe(5);
+        resolve();
+      }, 10);
+    });
+  });
+
+  it('it can send basic auth when retrieving the stream', () => {
     const server = nock('http://0.0.0.0:2113', { reqheaders: { Authorization: 'Basic Y2FtOnMzY3IzdA==' } })
       .persist()
       .get('/streams/auth-stream/0')
