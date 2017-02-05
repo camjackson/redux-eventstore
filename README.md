@@ -84,7 +84,7 @@ happen in quick succession, from different sources.
 
 *(Promise)* Resolves or rejects based on the server response.
 
-### `stream.subscribe(dispatch, [pollPeriod=1000])`
+### `stream.subscribe(dispatch, [pollPeriod=1000], [includeMetadata=false])`
 
 Subscribes to an Event Store stream, dispatching all events from that stream to your redux store. Initially, all previous
 events will be played through as fast as possible, after which the stream will be polled for new events periodically.
@@ -97,6 +97,7 @@ in the stream.
 
  - `dispatch` *(Function(`event`))*: The callback function that will receive each event read off the stream
  - [`pollPeriod`] *(Number)*: How many milliseconds to wait between polls of the stream (*default: 1000*)
+ - [`includeMetadata`] *(Boolean)*: Whether to include any event metadata (*default: false*).
 
 ## Events vs. actions
 Typically with redux, you dispatch **actions**, which are imperatively named. For example: `CREATE_USER`. This makes
